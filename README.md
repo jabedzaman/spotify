@@ -98,7 +98,3 @@ MIT
 ## Author
 
 Jabed Zaman ([@jabedzaman](https://github.com/jabedzaman))
-
-```
-
-```
