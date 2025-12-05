@@ -12,6 +12,10 @@ import {
   isValidLimit,
   isValidTimeRange,
 } from "./utils";
+import { SpotifyResponse } from "./interfaces";
+import { TopTrack, Track } from "./interfaces/track";
+import { formatTrack, formatArtist } from "./format";
+import { Artist, TopArtist } from "./interfaces/artist";
 
 /**
  * Main Spotify API client for interacting with Spotify's Web API
@@ -89,7 +93,10 @@ export class Spotify {
    * console.log(tracks.items[0].name); // First track name
    * ```
    */
-  async getTopTracks(timeRange: TimeRange, limit: number): Promise<any> {
+  async getTopTracks(
+    timeRange: TimeRange,
+    limit: number
+  ): Promise<Array<Track>> {
     if (!isValidTimeRange(timeRange)) {
       throw new Error(
         `Invalid time range: ${timeRange}. Must be 'short_term', 'medium_term', or 'long_term'`
@@ -106,11 +113,11 @@ export class Spotify {
     });
 
     try {
-      const response = await axios.get(url, {
+      const { data } = await axios.get<SpotifyResponse<TopTrack>>(url, {
         headers: createAuthHeaders(accessToken),
       });
 
-      return response.data;
+      return data.items.map((item) => formatTrack(item));
     } catch (error) {
       if (error instanceof AxiosError) {
         throw new Error(
@@ -141,7 +148,10 @@ export class Spotify {
    * console.log(artists.items[0].name); // First artist name
    * ```
    */
-  async getTopArtists(timeRange: TimeRange, limit: number): Promise<any> {
+  async getTopArtists(
+    timeRange: TimeRange,
+    limit: number
+  ): Promise<Array<Artist>> {
     if (!isValidTimeRange(timeRange)) {
       throw new Error(
         `Invalid time range: ${timeRange}. Must be 'short_term', 'medium_term', or 'long_term'`
@@ -158,11 +168,11 @@ export class Spotify {
     });
 
     try {
-      const response = await axios.get(url, {
+      const { data } = await axios.get<SpotifyResponse<TopArtist>>(url, {
         headers: createAuthHeaders(accessToken),
       });
 
-      return response.data;
+      return data.items.map((item) => formatArtist(item));
     } catch (error) {
       if (error instanceof AxiosError) {
         throw new Error(

@@ -57,4 +57,4 @@ export {
 } from "./utils";
 
 // Export all types
-export * from "./types";
+export * from "./interfaces";
