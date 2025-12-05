@@ -1,0 +1,25 @@
+# Source files
+src/
+__tests__/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+vitest.config.ts
+
+# Development
+node_modules/
+.git/
+.github/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+.env
+.env.*
+*.tsbuildinfo
+coverage/
+.DS_Store

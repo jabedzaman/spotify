@@ -1,8 +1,29 @@
 {
   "name": "@jabedzaman/spotify",
-  "private": true,
   "type": "module",
   "version": "0.0.1",
+  "description": "A TypeScript client for the Spotify Web API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jabedzaman/spotify.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "spotify",
+    "api",
+    "typescript",
+    "music",
+    "spotify-api",
+    "spotify-web-api"
+  ],
+  "author": "Jabed Zaman <jabedzaman@outlook.com> (https://github.com/jabedzaman)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jabedzaman/spotify/issues"
+  },
+  "homepage": "https://github.com/jabedzaman/spotify#readme",
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
