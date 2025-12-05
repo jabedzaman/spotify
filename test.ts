@@ -7,9 +7,9 @@ const spotify = new Spotify({
 });
 
 async function main() {
-  const topArtists = await spotify.getTopArtists("long_term", 1);
+  const currentTrack = await spotify.getCurrentlyPlaying();
 
-  console.log(JSON.stringify(topArtists, null, 2));
+  console.log(JSON.stringify(currentTrack, null, 2));
 }
 
 main().catch(console.error);

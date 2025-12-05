@@ -29,6 +29,11 @@ export const TOP_ARTISTS_ENDPOINT = `${SPOTIFY_API_BASE}/me/top/artists`;
 export const RECENTLY_PLAYED_ENDPOINT = `${SPOTIFY_API_BASE}/me/player/recently-played`;
 
 /**
+ * Endpoint for getting the currently playing track
+ */
+export const CURRENTLY_PLAYING_ENDPOINT = `${SPOTIFY_API_BASE}/me/player/currently-playing`;
+
+/**
  * Endpoint for obtaining access tokens
  */
 export const TOKEN_ENDPOINT = `${SPOTIFY_ACCOUNTS_BASE}/api/token`;

@@ -5,6 +5,7 @@ import {
   TOP_ARTISTS_ENDPOINT,
   RECENTLY_PLAYED_ENDPOINT,
   type TimeRange,
+  CURRENTLY_PLAYING_ENDPOINT,
 } from "./endpoints";
 import {
   buildUrlWithParams,
@@ -230,6 +231,53 @@ export class Spotify {
       }
       throw new Error(
         `Failed to get recently played: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
+    }
+  }
+
+  /**
+   * Retrieves the currently playing track from Spotify
+   * @returns Promise containing the currently playing track data
+   * @throws {Error} If the request fails
+   *
+   * @example
+   * ```typescript
+   * const currentTrack = await spotify.getCurrentlyPlaying();
+   * console.log(currentTrack.name);
+   * ```
+   */
+  async getCurrentlyPlaying(): Promise<{
+    isPlaying: boolean;
+    item: Track | null;
+  }> {
+    const accessToken = await this.auth.getAccessToken();
+
+    try {
+      const { data } = await axios.get<{
+        is_playing: boolean;
+        timestamp: number;
+        progress_ms: number;
+        item: TopTrack | null;
+      }>(CURRENTLY_PLAYING_ENDPOINT, {
+        headers: createAuthHeaders(accessToken),
+      });
+
+      return {
+        isPlaying: data.is_playing,
+        item: data.item ? formatTrack(data.item) : null,
+      };
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new Error(
+          `Failed to get currently playing track: ${
+            error.response?.statusText || error.message
+          }`
+        );
+      }
+      throw new Error(
+        `Failed to get currently playing track: ${
           error instanceof Error ? error.message : "Unknown error"
         }`
       );
