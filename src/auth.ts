@@ -1,3 +1,4 @@
+import axios, { AxiosError } from "axios";
 import { TOKEN_ENDPOINT } from "./endpoints";
 
 /**
@@ -91,22 +92,26 @@ export class SpotifyAuth {
     params.append("refresh_token", this.refreshToken);
 
     try {
-      const response = await fetch(TOKEN_ENDPOINT, {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${this.getBasicAuthToken()}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: params.toString(),
-      });
+      const response = await axios.post<TokenResponse>(
+        TOKEN_ENDPOINT,
+        params.toString(),
+        {
+          headers: {
+            Authorization: `Basic ${this.getBasicAuthToken()}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error(`Token request failed: ${response.statusText}`);
-      }
-
-      const data = (await response.json()) as TokenResponse;
-      return data.access_token;
+      return response.data.access_token;
     } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new Error(
+          `Failed to get access token: ${
+            error.response?.statusText || error.message
+          }`
+        );
+      }
       throw new Error(
         `Failed to get access token: ${
           error instanceof Error ? error.message : "Unknown error"

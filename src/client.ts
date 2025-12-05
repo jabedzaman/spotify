@@ -1,3 +1,4 @@
+import axios, { AxiosError } from "axios";
 import { SpotifyAuth, type SpotifyAuthConfig } from "./auth";
 import {
   TOP_TRACKS_ENDPOINT,
@@ -104,15 +105,26 @@ export class Spotify {
       limit: limit.toString(),
     });
 
-    const response = await fetch(url, {
-      headers: createAuthHeaders(accessToken),
-    });
+    try {
+      const response = await axios.get(url, {
+        headers: createAuthHeaders(accessToken),
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to get top tracks: ${response.statusText}`);
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new Error(
+          `Failed to get top tracks: ${
+            error.response?.statusText || error.message
+          }`
+        );
+      }
+      throw new Error(
+        `Failed to get top tracks: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
-
-    return await response.json();
   }
 
   /**
@@ -145,15 +157,26 @@ export class Spotify {
       limit: limit.toString(),
     });
 
-    const response = await fetch(url, {
-      headers: createAuthHeaders(accessToken),
-    });
+    try {
+      const response = await axios.get(url, {
+        headers: createAuthHeaders(accessToken),
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to get top artists: ${response.statusText}`);
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new Error(
+          `Failed to get top artists: ${
+            error.response?.statusText || error.message
+          }`
+        );
+      }
+      throw new Error(
+        `Failed to get top artists: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
-
-    return await response.json();
   }
 
   /**
@@ -181,14 +204,25 @@ export class Spotify {
       limit: limit.toString(),
     });
 
-    const response = await fetch(url, {
-      headers: createAuthHeaders(accessToken),
-    });
+    try {
+      const response = await axios.get(url, {
+        headers: createAuthHeaders(accessToken),
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to get recently played: ${response.statusText}`);
+      return response.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new Error(
+          `Failed to get recently played: ${
+            error.response?.statusText || error.message
+          }`
+        );
+      }
+      throw new Error(
+        `Failed to get recently played: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
-
-    return await response.json();
   }
 }

@@ -74,7 +74,7 @@ export function buildUrlWithParams(
  * // Returns: { Authorization: 'Bearer your-access-token' }
  * ```
  */
-export function createAuthHeaders(accessToken: string): HeadersInit {
+export function createAuthHeaders(accessToken: string): Record<string, string> {
   return {
     Authorization: `Bearer ${accessToken}`,
   };
